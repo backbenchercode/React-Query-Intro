@@ -21,9 +21,9 @@ function Gitusers() {
         <h1>Loading...</h1>
       ) : (
         <div>
-          <h1>{gitUsers.data?.total_count} results found!</h1>
+          <h1>{gitUsers.data.total_count} results found!</h1>
           <ul>
-            {gitUsers.data?.items.map((item) => (
+            {gitUsers.data.items.map((item) => (
               <li key={item.id}>
                 <img src={item.avatar_url} width="60px" height="60px" />@
                 {item.login}
