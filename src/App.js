@@ -1,7 +1,5 @@
-// highlight intentional extra waiting to show loading state.
-// Adding isLoading flag
-
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
 
 const queryClient = new QueryClient();
@@ -40,6 +38,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Gitusers />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 }
