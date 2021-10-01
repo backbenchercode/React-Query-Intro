@@ -1,6 +1,3 @@
-// highlight intentional extra waiting to show loading state.
-// Adding isLoading flag
-
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import axios from "axios";
 
@@ -22,6 +19,7 @@ function Gitusers() {
       ) : (
         <div>
           <h1>{gitUsers.data.total_count} results found!</h1>
+          <h2>{gitUsers.isFetching ? "Updating..." : null}</h2>
           <ul>
             {gitUsers.data.items.map((item) => (
               <li key={item.id}>
