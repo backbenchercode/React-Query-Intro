@@ -1,16 +1,23 @@
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
 
 const queryClient = new QueryClient();
 
 function Gitusers() {
-  const gitUsers = useQuery("gitusers", async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    const { data } = await axios.get(
-      "https://api.github.com/search/users?q=react"
-    );
-    return data;
-  });
+  const gitUsers = useQuery(
+    "gitusers",
+    async () => {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const { data } = await axios.get(
+        "https://api.github.com/search/users?q=react"
+      );
+      return data;
+    },
+    {
+      staleTime: 5000,
+    }
+  );
   console.log(gitUsers);
   return (
     <>
@@ -38,6 +45,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Gitusers />
+      <ReactQueryDevtools position="bottom-right" />
     </QueryClientProvider>
   );
 }
