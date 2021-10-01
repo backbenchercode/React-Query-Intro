@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
@@ -15,7 +16,7 @@ function Gitusers() {
       return data;
     },
     {
-      staleTime: 5000,
+      cacheTime: 5000,
     }
   );
   console.log(gitUsers);
@@ -42,9 +43,11 @@ function Gitusers() {
 }
 
 function App() {
+  const [toggleState, toggle] = useState(true);
   return (
     <QueryClientProvider client={queryClient}>
-      <Gitusers />
+      <button onClick={() => toggle(!toggleState)}>Toggle</button>
+      {toggleState ? <Gitusers /> : null}
       <ReactQueryDevtools position="bottom-right" />
     </QueryClientProvider>
   );
