@@ -1,7 +1,9 @@
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import axios from "axios";
 
 const queryClient = new QueryClient();
+const queryClient1 = new QueryClient();
 
 function Gitusers() {
   const gitUsers = useQuery("gitusers", async () => {
@@ -35,9 +37,16 @@ function Gitusers() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Gitusers />
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <Gitusers />
+        <ReactQueryDevtools position="bottom-right" />
+      </QueryClientProvider>
+      <QueryClientProvider client={queryClient1}>
+        <Gitusers />
+        <ReactQueryDevtools position="bottom-right" />
+      </QueryClientProvider>
+    </>
   );
 }
 
