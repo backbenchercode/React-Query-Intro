@@ -34,10 +34,40 @@ function Gitusers() {
   );
 }
 
+function Gitrepos() {
+  const gitRepos = useQuery("gitrepos", async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const { data } = await axios.get(
+      "https://api.github.com/search/repositories?q=react"
+    );
+    return data;
+  });
+  console.log(gitRepos);
+  return (
+    <>
+      {gitRepos.isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          <h1>{gitRepos.data.total_count} results found!</h1>
+          <ul>
+            {gitRepos.data.items.map((item) => (
+              <li key={item.id}>
+                {item.name} - @{item.owner.login}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Gitusers />
+      <Gitrepos />
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
