@@ -1,6 +1,3 @@
-// highlight intentional extra waiting to show loading state.
-// Adding isLoading flag
-
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import axios from "axios";
 
