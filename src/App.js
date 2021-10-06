@@ -8,13 +8,19 @@ const queryClient = new QueryClient();
 function GitUserSearch() {
   const [value, setValue] = useState("");
 
-  const gitUsers = useQuery(`user${value}`, async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    const { data } = await axios.get(
-      "https://api.github.com/search/users?q=" + value
-    );
-    return data;
-  });
+  const gitUsers = useQuery(
+    `user${value}`,
+    async () => {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const { data } = await axios.get(
+        "https://api.github.com/search/users?q=" + value
+      );
+      return data;
+    },
+    {
+      enabled: value.length > 2,
+    }
+  );
   console.log(gitUsers);
   return (
     <>
