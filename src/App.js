@@ -6,20 +6,31 @@ import axios from "axios";
 const queryClient = new QueryClient();
 
 function GitUserSearch() {
-  const [value, setValue] = useState("");
+  const [userValue, setUserValue] = useState("");
 
-  const gitUsers = useQuery(`user${value}`, async () => {
+  const gitUsers = useQuery(["User", userValue], async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     const { data } = await axios.get(
-      "https://api.github.com/search/users?q=" + value
+      "https://api.github.com/search/users?q=" + userValue
     );
     return data;
   });
-  console.log(gitUsers);
+
+  const [repoValue, setRepoValue] = useState("");
+
+  const gitRepos = useQuery(["Repo", repoValue], async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const { data } = await axios.get(
+      "https://api.github.com/search/repositories?q=" + repoValue
+    );
+    return data;
+  });
   return (
     <>
-      <input type="text" onChange={(e) => setValue(e.target.value)} />
-      <h1>{gitUsers.data?.total_count} results found!</h1>
+      <input type="text" onChange={(e) => setUserValue(e.target.value)} />
+      <h1>{gitUsers.data?.total_count} user results found!</h1>
+      <input type="text" onChange={(e) => setRepoValue(e.target.value)} />
+      <h1>{gitRepos.data?.total_count} repo results found!</h1>
     </>
   );
 }
