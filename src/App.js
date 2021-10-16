@@ -4,30 +4,23 @@ import axios from "axios";
 
 const queryClient = new QueryClient();
 
-function Gitusers() {
-  const gitUsers = useQuery("gitusers", async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+function RandomCoffee() {
+  const randomCoffee = useQuery("coffee", async () => {
     const { data } = await axios.get(
-      "https://api.github.com/search/users?q=react"
+      "https://random-data-api.com/api/coffee/random_coffee"
     );
     return data;
   });
-  console.log(gitUsers);
   return (
     <>
-      {gitUsers.isLoading ? (
+      {randomCoffee.isLoading ? (
         <h1>Loading...</h1>
       ) : (
         <div>
-          <h1>{gitUsers.data.total_count} results found!</h1>
-          <ul>
-            {gitUsers.data.items.map((item) => (
-              <li key={item.id}>
-                <img src={item.avatar_url} width="60px" height="60px" />@
-                {item.login}
-              </li>
-            ))}
-          </ul>
+          <h1>{randomCoffee.data.variety}</h1>
+          <button onClick={() => queryClient.invalidateQueries("coffee")}>
+            Get Fresh Coffee
+          </button>
         </div>
       )}
     </>
@@ -37,7 +30,7 @@ function Gitusers() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Gitusers />
+      <RandomCoffee />
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
